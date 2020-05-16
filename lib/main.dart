@@ -32,10 +32,26 @@ class TodoListPage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Text('にんじんを買う'),
-          Text('玉ねぎを買う'),
-          Text('じゃがいもを買う'),
-          Text('カレールーを買う'),
+          Card(
+            child: ListTile(
+              title: Text('にんじんを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('玉ねぎを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('じゃがいもを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('カレールーを買う'),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
