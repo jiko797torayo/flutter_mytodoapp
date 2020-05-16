@@ -23,46 +23,48 @@ class MyApp extends StatelessWidget {
 }
 
 // リスト一覧画面用Widget
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
+  @override
+  _TodoListPageState createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State {
+  List<String> todoList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('リスト一覧'),
       ),
-      body: ListView(
-        children: [
-          Card(
+      // データを元にListViewを作成
+      body: ListView.builder(
+        itemCount: todoList.length,
+        itemBuilder: (context, index) {
+          return Card(
             child: ListTile(
-              title: Text('にんじんを買う'),
+              title: Text(todoList[index]),
             ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('玉ねぎを買う'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('じゃがいもを買う'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('カレールーを買う'),
-            ),
-          ),
-        ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           // pushで新規画面に遷移
-          Navigator.of(context).push(
+          // リスト追加画面から渡される値を受け取る
+          final newListText = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               // 遷移先の画面としてリスト追加画面を指定
               return TodoAddPage();
             }),
           );
+          if (newListText != null) {
+            // キャンセルした場合はnewListTextがnullとなるので注意
+            setState(() {
+              // リスト追加
+              todoList.add(newListText);
+            });
+          }
         },
         child: Icon(Icons.add),
       ),
@@ -109,7 +111,11 @@ class _TodoAddPageState extends State {
                 // リスト追加ボタン
                 child: RaisedButton(
                   color: Colors.blue,
-                  onPressed: () {},
+                  onPressed: () {
+                    // popで前の画面に戻る
+                    // popの引数から前の画面にデータを渡す
+                    Navigator.of(context).pop(_text);
+                  },
                   child: Text('リスト追加', style: TextStyle(color: Colors.white)),
                 ),
               ),
