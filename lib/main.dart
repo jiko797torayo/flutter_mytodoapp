@@ -71,7 +71,15 @@ class TodoListPage extends StatelessWidget {
 }
 
 // リスト追加画面用Widget
-class TodoAddPage extends StatelessWidget {
+class TodoAddPage extends StatefulWidget {
+  @override
+  _TodoAddPageState createState() => _TodoAddPageState();
+}
+
+class _TodoAddPageState extends State {
+  String _text = '';
+
+  // データを元に表示するWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +90,19 @@ class TodoAddPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // 入力されたテキストを表示
+              Text(_text, style: TextStyle(color: Colors.blue)),
               // テキスト入力
-              TextField(),
+              TextField(
+                // 入力されたテキストの値を受け取る（valueが入力されたテキスト）
+                onChanged: (String value) {
+                  // データが変更したことを知らせる（画面を更新する）
+                  setState(() {
+                    // データを変更
+                    _text = value;
+                  });
+                },
+              ),
               Container(
                 // 横幅いっぱいに広げる
                 width: double.infinity,
